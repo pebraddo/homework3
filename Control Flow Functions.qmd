@@ -1,0 +1,64 @@
+---
+title: "Control Flow Functions"
+format: html
+editor: visual
+---
+
+```{r}
+load("hw2_list.rda")
+```
+
+# Task 1: Control Flow Practice
+
+```{r}
+bp_list$treatment$status <- character(20)
+bp_list$placebo$status <- character(10)
+```
+
+```{r}
+for(i in 1:20){
+  if (bp_list$treatment$post_bp[i] <= 120)
+    {bp_list$treatment$status[i] <- 'optimal'
+  } else if (bp_list$treatment$post_bp[i] > 130)
+    {bp_list$treatment$status[i] <- 'high'
+  } else if (bp_list$treatment$post_bp[i] > 120 & bp_list$treatment$post_bp[i] <= 130)
+    {bp_list$treatment$status[i] <- 'borderline'
+  }
+}
+```
+
+```{r}
+for(i in 1:10){
+  if (bp_list$placebo$post_bp[i] <= 120)
+    {bp_list$placebo$status[i] <- 'optimal'
+  } else if (bp_list$placebo$post_bp[i] > 130)
+    {bp_list$placebo$status[i] <- 'high'
+  } else if (bp_list$placebo$post_bp[i] > 120 & bp_list$placebo$post_bp[i] <= 130)
+    {bp_list$placebo$status[i] <- 'borderline'
+  }
+}
+```
+
+# Task 2: Function Writing
+
+```{r}
+my_function <- function(list_of_dfs, stat = "mean"){
+  my_function <- get(stat)
+  treatment <- list_of_dfs[[1]]
+  placebo <- list_of_dfs[[2]]
+  vector_values <- c(my_function(treatment$pre), my_function(treatment$post), my_function(treatment$diff), my_function(placebo$pre), my_function(placebo$post), my_function(placebo$diff))
+  names(vector_values) <- c(paste0("treatment_pre", stat),paste0("treatment_post", stat), paste0("treatment_diff", stat), paste0("placebo_pre", stat), paste0("placebo_post", stat), paste0("placebo_diff", stat))
+  return(vector_values)
+}
+```
+
+```{r}
+my_function(bp_list)
+```
+
+```{r}
+my_function(bp_list, stat='var')
+my_function(bp_list, stat='sd')
+my_function(bp_list, stat='min')
+my_function(bp_list, stat='max')
+```
