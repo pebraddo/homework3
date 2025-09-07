@@ -4,16 +4,28 @@ format: html
 editor: visual
 ---
 
+#### Powell Braddock - ST 558
+
+Homework 3
+
+September 10, 2025
+
+Here we are loading in the `.rda` file that has a version of the list we created in the last part of the previous homework.
+
 ```{r}
 load("hw2_list.rda")
 ```
 
 # Task 1: Control Flow Practice
 
+Now, we can use that loaded in file to see `bp_list` object in the environment. We want to add a column to the two data frames in this list object: `treatment` and `placebo`. Please note the `treatment` data frame has 20 subjects, while the `placebo` data frame has 10 subjects.
+
 ```{r}
 bp_list$treatment$status <- character(20)
 bp_list$placebo$status <- character(10)
 ```
+
+Now, we are looking at the `treatment` data frame and creating a for loop that uses an if/then/else statement to assign a 'status' associated with each post-treatment blood pressure: optimal, borderline, and high.
 
 ```{r}
 for(i in 1:20){
@@ -25,7 +37,10 @@ for(i in 1:20){
     {bp_list$treatment$status[i] <- 'borderline'
   }
 }
+bp_list$treatment
 ```
+
+We do the same thing for the `placebo` data frame in the `bp_list` object.
 
 ```{r}
 for(i in 1:10){
@@ -37,9 +52,12 @@ for(i in 1:10){
     {bp_list$placebo$status[i] <- 'borderline'
   }
 }
+bp_list$placebo
 ```
 
 # Task 2: Function Writing
+
+Let's create a function called `my_function` that shows the statistic of interest for the data frames, with a default of calculating the data frames' mean.
 
 ```{r}
 my_function <- function(list_of_dfs, stat = "mean"){
@@ -52,9 +70,13 @@ my_function <- function(list_of_dfs, stat = "mean"){
 }
 ```
 
+Here's the default use of the function on the `bp_list` we were working with.
+
 ```{r}
 my_function(bp_list)
 ```
+
+Now, we can test this function using other statistics of interest: variability, standard deviation, minimum, and maximum.
 
 ```{r}
 my_function(bp_list, stat='var')
